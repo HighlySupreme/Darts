@@ -1,0 +1,118 @@
+<div class="leaderboard-container">
+    <h1>Darts Leaderboard</h1>
+
+    <div class="game-submission">
+        <mat-form-field appearance="fill">
+            <mat-label>Select Players</mat-label>
+            <mat-select
+                [(ngModel)]="selectedPlayers"
+                multiple>
+                <mat-option
+                    *ngFor="let player of players"
+                    [value]="player.name">
+                    {{player.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Select Winner</mat-label>
+            <mat-select [(ngModel)]="winner">
+                <mat-option
+                    *ngFor="let player of selectedPlayers"
+                    [value]="player">
+                    {{player}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button
+            mat-raised-button
+            color="accent"
+            (click)="submitGame()">
+            Submit Game
+        </button>
+    </div>
+
+    <div class="player-addition">
+        <mat-form-field appearance="fill">
+            <mat-label>New Player Name</mat-label>
+            <input
+                matInput
+                [(ngModel)]="newPlayerName"
+                placeholder="Enter name">
+        </mat-form-field>
+        <button
+            mat-raised-button
+            color="primary"
+            (click)="addPlayer()">
+            Add Player
+        </button>
+    </div>
+
+    <table
+        mat-table
+        [dataSource]="leaderboardData"
+        class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th
+                mat-header-cell
+                *matHeaderCellDef>
+                Name
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let element">
+                {{element.name}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gamesPlayed">
+            <th
+                mat-header-cell
+                *matHeaderCellDef>
+                Games Played
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let element">
+                {{element.gamesPlayed}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gamesWon">
+            <th
+                mat-header-cell
+                *matHeaderCellDef>
+                Games Won
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let element">
+                {{element.gamesWon}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="winPercentage">
+            <th
+                mat-header-cell
+                *matHeaderCellDef>
+                Win Percentage
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let element">
+                {{element.winPercentage | number:'1.0-2'}}%
+            </td>
+        </ng-container>
+
+        <tbody>
+            <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns;"></tr>
+        </tbody>
+    </table>
+</div>
