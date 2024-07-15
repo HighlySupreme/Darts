@@ -24,3 +24,5 @@ darts-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+darts.sqlite3*

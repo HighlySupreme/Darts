@@ -14,7 +14,7 @@ defmodule Darts.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:logger, :mnesia],
       mod: {Darts.Application, []}
     ]
   end
@@ -24,7 +24,9 @@ defmodule Darts.MixProject do
     [
       {:plug_cowboy, "~> 2.5"},
       {:jason, "~> 1.2"},
-      {:cors_plug, "~> 3.0"}
+      {:cors_plug, "~> 3.0"},
+      {:ecto_sql, "~> 3.6"},
+      {:ecto_sqlite3, "~> 0.8.0"}
     ]
   end
 end

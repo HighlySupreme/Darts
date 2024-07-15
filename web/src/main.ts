@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 bootstrapApplication(AppComponent, {
@@ -17,7 +18,8 @@ bootstrapApplication(AppComponent, {
             FormsModule,
             MatSelectModule,
             MatButtonModule,
-            MatFormFieldModule
+            MatFormFieldModule,
+            BrowserAnimationsModule
         )
     ]
 })

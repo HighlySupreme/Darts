@@ -66,15 +66,6 @@ export class LeaderboardComponent implements OnInit {
     );
   }
 
-  addPlayer(): void {
-    if (this.newPlayerName) {
-      // Here you would typically call an API to add the new player
-      console.log('Adding new player:', this.newPlayerName);
-      this.newPlayerName = ''; // Clear the input after adding
-      this.loadPlayers(); // Reload the players list
-    }
-  }
-
   submitGame(): void {
     if (this.selectedPlayers.length > 0 && this.winner) {
       // Here you would typically call an API to submit the game result

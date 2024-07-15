@@ -34,22 +34,6 @@
         </button>
     </div>
 
-    <div class="player-addition">
-        <mat-form-field appearance="fill">
-            <mat-label>New Player Name</mat-label>
-            <input
-                matInput
-                [(ngModel)]="newPlayerName"
-                placeholder="Enter name">
-        </mat-form-field>
-        <button
-            mat-raised-button
-            color="primary"
-            (click)="addPlayer()">
-            Add Player
-        </button>
-    </div>
-
     <table
         mat-table
         [dataSource]="leaderboardData"

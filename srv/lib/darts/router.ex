@@ -1,24 +1,28 @@
 defmodule Darts.Router do
   use Plug.Router
 
+  plug CORSPlug, origin: ["http://localhost:4200"]
+
   plug :match
   plug :dispatch
-  plug CORSPlug
+  plug Plug.Parsers,
+    parsers: [:json],
+    pass: ["application/json"],
+    json_decoder: Jason
 
   get "/api/players" do
-    # Implement fetching all players
+    players = Darts.Game.get_players()
+    send_resp(conn, 200, Jason.encode!(players))
   end
 
   get "/api/history" do
-    # Implement fetching game history
+    history = Darts.Game.get_histroy()
+    send_resp(conn, 200, Jason.encode!(history))
   end
 
   get "/api/history/leaderboard" do
-    # Implement fetching leaderboard data
-  end
-
-  post "/api/history/clear" do
-    # Implement clearing specific history entry
+    leaderboard = Darts.Game.get_leaderboard()
+    send_resp(conn, 200, Jason.encode!(leaderboard))
   end
 
   match _ do
