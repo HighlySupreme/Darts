@@ -1,8 +1,10 @@
 defmodule Darts.Game do
   alias Darts.{Repo, Player, GameHistory}
+  import Ecto.Query, only: [from: 2]
 
   def get_players do
-    Repo.all(Player)
+    from(p in Player, select: p.name)
+  |> Repo.all()
   end
 
   def get_history do
@@ -26,5 +28,41 @@ defmodule Darts.Game do
       0 -> 0.0
       _ -> (wins / games_played) * 100
     end
+  end
+
+  def submit_game_result(players, winner) do
+    # Start a transaction
+    Repo.transaction(fn ->
+      # Create a new game history entry
+      {:ok, _history} = %GameHistory{}
+      |> GameHistory.changeset(%{
+        players: players,
+        winner: winner,
+        date: DateTime.utc_now()
+      })
+      |> Repo.insert()
+
+      # Update player statistics
+      Enum.each(players, fn player_name ->
+        player = Repo.get_by(Player, name: player_name)
+
+        player_params = %{
+          name: player_name,
+          games_played: (if player, do: player.games_played + 1, else: 1),
+          wins: (if player_name == winner, do: (if player, do: player.wins + 1, else: 1), else: (if player, do: player.wins, else: 0))
+        }
+
+        if player do
+          player
+          |> Player.changeset(player_params)
+          |> Repo.update()
+        else
+          # If the player doesn't exist, create a new one
+          %Player{}
+          |> Player.changeset(player_params)
+          |> Repo.insert()
+        end
+      end)
+    end)
   end
 end

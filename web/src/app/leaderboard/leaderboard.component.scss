@@ -1,36 +1,173 @@
-.leaderboard-container {
-  background-color: #e3f2fd;
-  min-height: 100vh;
+$primary-color: #0361a1;
+$background-color: #272a2d;
+$text-color: #ffffff;
+
+body {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background-color: $background-color;
+  color: $text-color;
+}
 
-  h1 {
-    color: #1565c0;
-    margin-bottom: 30px;
+h1,
+h2 {
+  text-align: center;
+  color: $primary-color;
+}
+
+#add-result {
+  margin-bottom: 20px;
+  background-color: lighten($background-color, 5%);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+select,
+button {
+  margin: 5px;
+  padding: 8px;
+  background-color: darken($background-color, 5%);
+  color: $text-color;
+  border: 1px solid $primary-color;
+  border-radius: 4px;
+}
+
+button {
+  background-color: $primary-color;
+  color: $text-color;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: lighten($primary-color, 10%);
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+
+  th,
+  td {
+    border: 1px solid $primary-color;
+    padding: 12px;
+    text-align: left;
+    color: $text-color;
   }
 
-  .game-submission,
-  .player-addition {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    width: 100%;
-    max-width: 800px;
+  th {
+    background-color: $primary-color;
+    color: $text-color;
   }
 
-  .mat-form-field {
-    flex: 1;
-  }
+  tr {
+    &:nth-child(even) {
+      background-color: lighten($background-color, 5%);
+    }
 
-  button {
-    align-self: flex-end;
+    &:nth-child(odd) {
+      background-color: $background-color;
+    }
   }
+}
 
-  table {
-    width: 100%;
-    max-width: 800px;
-    margin-top: 20px;
+li {
+  color: $text-color;
+}
+
+$particles: 50;
+$width: 500;
+$height: 500;
+
+// Create the explosion...
+$box-shadow: ();
+$box-shadow2: ();
+@for $i from 0 through $particles {
+  $box-shadow: $box-shadow,
+    random($width)-$width /
+      2 +
+      px
+      random($height)-$height /
+      1.2 +
+      px
+      hsl(random(360), 100, 50);
+  $box-shadow2: $box-shadow2, 0 0 #fff;
+}
+
+@mixin keyframes($animationName) {
+  @keyframes #{$animationName} {
+    @content;
+  }
+}
+
+.pyro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: none;
+  background-color: #272a2d;
+  opacity: 0.8;
+}
+
+.pyro > .before,
+.pyro > .after {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  box-shadow: $box-shadow2;
+  animation: 1s bang ease-out infinite backwards,
+    1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+}
+
+.pyro > .after {
+  animation-delay: 1.25s, 1.25s, 1.25s;
+  animation-duration: 1.25s, 1.25s, 6.25s;
+}
+
+@include keyframes(bang) {
+  to {
+    box-shadow: $box-shadow;
+  }
+}
+
+@include keyframes(gravity) {
+  to {
+    transform: translateY(200px);
+    opacity: 0;
+  }
+}
+
+@include keyframes(position) {
+  0%,
+  19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%,
+  39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%,
+  59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%,
+  79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%,
+  99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
   }
 }

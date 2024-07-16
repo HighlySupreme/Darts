@@ -1,39 +1,57 @@
-<div class="leaderboard-container">
-    <h1>Darts Leaderboard</h1>
+<div id="add-result">
+    <h2>Darts</h2>
+    <select
+        [(ngModel)]="player1"
+        (ngModelChange)="updatePlayerSelections()">
+        <option value>Select Player 1</option>
+        <option
+            *ngFor="let player of players"
+            [value]="player"
+            [disabled]="isPlayerSelected(player, 1)">
+            {{player}}
+        </option>
+    </select>
+    <select
+        [(ngModel)]="player2"
+        (ngModelChange)="updatePlayerSelections()">
+        <option value>Select Player 2</option>
+        <option
+            *ngFor="let player of players"
+            [value]="player"
+            [disabled]="isPlayerSelected(player, 2)">
+            {{player}}
+        </option>
+    </select>
+    <select
+        [(ngModel)]="player3"
+        (ngModelChange)="updatePlayerSelections()">
+        <option value>Select Player 3 (Optional)</option>
+        <option
+            *ngFor="let player of players"
+            [value]="player"
+            [disabled]="isPlayerSelected(player, 3)">
+            {{player}}
+        </option>
+    </select>
+    <select
+        [(ngModel)]="winner"
+        [disabled]="!canSelectWinner()">
+        <option value>Select Winner</option>
+        <option
+            *ngFor="let player of getSelectedPlayers()"
+            [value]="player">
+            {{player}}
+        </option>
+    </select>
+    <button
+        (click)="submitGame()"
+        [disabled]="!canAddResult()">
+        Add Result
+    </button>
+</div>
 
-    <div class="game-submission">
-        <mat-form-field appearance="fill">
-            <mat-label>Select Players</mat-label>
-            <mat-select
-                [(ngModel)]="selectedPlayers"
-                multiple>
-                <mat-option
-                    *ngFor="let player of players"
-                    [value]="player.name">
-                    {{player.name}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Select Winner</mat-label>
-            <mat-select [(ngModel)]="winner">
-                <mat-option
-                    *ngFor="let player of selectedPlayers"
-                    [value]="player">
-                    {{player}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <button
-            mat-raised-button
-            color="accent"
-            (click)="submitGame()">
-            Submit Game
-        </button>
-    </div>
-
+<div id="leaderboard">
+    <h2>Leaderboard</h2>
     <table
         mat-table
         [dataSource]="leaderboardData"
@@ -60,7 +78,7 @@
             <td
                 mat-cell
                 *matCellDef="let element">
-                {{element.gamesPlayed}}
+                {{element.games_played}}
             </td>
         </ng-container>
 
@@ -73,7 +91,7 @@
             <td
                 mat-cell
                 *matCellDef="let element">
-                {{element.gamesWon}}
+                {{element.games_won}}
             </td>
         </ng-container>
 
@@ -86,7 +104,7 @@
             <td
                 mat-cell
                 *matCellDef="let element">
-                {{element.winPercentage | number:'1.0-2'}}%
+                {{element.win_percentage | number:'1.0-2'}}%
             </td>
         </ng-container>
 
@@ -100,3 +118,10 @@
         </tbody>
     </table>
 </div>
+
+@if (showFireworks) {
+    <div class="pyro">
+        <div class="before"></div>
+        <div class="after"></div>
+      </div>
+}

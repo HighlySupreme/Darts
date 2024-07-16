@@ -22,7 +22,7 @@ export class LeaderboardService {
     return this.http.get<any[]>(`${this.apiUrl}/history/leaderboard`);
   }
 
-  clearHistory(id: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/history/clear`, { id });
+  submitGame(players: string[], winner: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/submit_game`, { players, winner });
   }
 }
